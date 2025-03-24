@@ -1,0 +1,150 @@
+.App-link {
+  color: #61dafb;
+}
+
+.App {
+  height: 100vh;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+}
+
+.content {
+  margin-left: 20px;
+}
+
+.menu-block {
+  padding: 15px 10px;
+  width: 5%;
+  background-color: #f0f0f0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 300ms ease;
+}
+
+
+.menu__item-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+}
+
+.submenu {
+  min-width: 150px;
+  padding: 15px;
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+  background-color: #e2e2e2;
+  border: 1px solid #cccccf;
+  border-radius: 15px;
+  position: absolute;
+  top: 0%;
+  left: 40px;
+}
+
+.menu__item {
+  position: relative;
+}
+
+.menu__item+.menu__item {
+  margin-top: 15px;
+}
+
+.submenu__active {
+  display: flex;
+}
+
+.menu:not(.active) .menu__item:hover .submenu {
+  display: flex;
+}
+
+.menu.active .submenu.active {
+  display: flex;
+}
+
+.menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.menu__item:hover {
+  background-color: #e2e2e2;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.menu__item-body {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+}
+
+.menu-block:has(.menu.active) {
+  width: 12%;
+}
+
+.menu.active .submenu.active {
+  position: static;
+}
+
+.submenu__item {
+  padding: 4px;
+  width: 100%;
+  position: relative;
+  padding-left: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+}
+
+.submenu__item span {
+  line-height: 1;
+  font-size: 24px;
+  color: rgb(23, 23, 187);
+}
+
+
+/* 
+.submenu__item::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 4px;
+  border-radius: 50%;
+  background-color: rgb(23, 23, 187);
+} */
+
+.submenu__item:hover {
+  background-color: #cacaca;
+}
+
+.menu.active .menu__item {
+  flex-direction: column;
+}
+
+.menu__header {
+  display: flex;
+  gap: 5px;
+}
+
+.menu__header--active {
+  color: #61dafb;
+}
+
+.submenu__item--active {
+  color: #61dafb;
+}
