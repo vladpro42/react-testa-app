@@ -1,58 +1,31 @@
-import { useState } from "react";
-import { menuData } from "./nav";
+import { useContext } from "react";
+import { MenuContext } from "./MenuContext";
 import MenuItem from "./components/MenuItem";
 
-export type NavIds = {
-    parentId: number;
-    childId: number;
-}
+
 
 const Menu = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [activeSubmenuId, setActiveSubmenuId] = useState<number | null>(null);
-    const [activeParenMenuId, setActiveParentMenuId] = useState<number | null>(null);
 
-    const toggleSubmenu = (id: number) => {
-        if (!isMenuOpen) return;
-        setActiveSubmenuId(null);
-    };
+    const menu = useContext(MenuContext);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(prev => !prev);
-        setActiveSubmenuId(null);
-    };
+    if (!menu) return <div>Нет данных</div>
 
-    const handleClickChildLink = (id: number) => {
-        setIsMenuOpen(false)
-        setActiveSubmenuId(id)
-    }
+    const { menuList, isOpen, toggleMenu } = menu
 
-    const handleClickParentLink = (id: number) => {
-        setIsMenuOpen(false)
-        setActiveParentMenuId(id)
-    }
+    const activeMenuClassName = isOpen ? 'menu--active' : '';
 
-    return (
-        <div className="menu-block">
-            <ul className={`menu ${isMenuOpen ? 'active' : ''}`}>
-                {menuData.map(item => (
-                    <MenuItem
-                        handleClickChildLink={handleClickChildLink}
-                        handleClickParentLink={handleClickParentLink}
-                        toggleMenu={toggleMenu} key={item.id}
-                        toggleSubmenu={toggleSubmenu} item={item}
-                        isMenuOpen={isMenuOpen}
-                        activeSubmenuId={activeSubmenuId}
-                        activeParenMenuId={activeParenMenuId}
-                    />
-                ))}
-            </ul>
-
-            <button onClick={() => toggleMenu()} className="menu__toggle">
-                {isMenuOpen ? '−' : '+'}
-            </button>
+    return <div className="menu-block">
+        <div className={`menu  ${activeMenuClassName}`}>
+            {
+                menuList.map(item => {
+                    return <MenuItem key={item.id} item={item} />
+                })
+            }
         </div>
-    );
+        <div className="menu__btn">
+            <button onClick={toggleMenu}>{isOpen ? 'hidden' : 'show'}</button>
+        </div>
+    </div>
 };
 
 export default Menu;

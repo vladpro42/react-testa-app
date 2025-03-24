@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import Layout from './Layout';
 import { HomePage } from './pages/clients/HomePage';
 import { AboutPage } from './pages/AboutPage';
@@ -36,6 +36,13 @@ const router = createBrowserRouter([
                     { path: 'chat2', element: <Chat2 /> },
                     { path: 'chat3', element: <Chat3 /> },
                 ]
+            },
+            {
+                path: 'inventory',
+                element: <div className="inventory-layout">
+                    <h2>inventory раздел</h2>
+                    <Outlet />
+                </div>,
             },
         ]
     }

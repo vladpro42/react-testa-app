@@ -7,7 +7,7 @@ export interface MenuItem {
 }
 
 
-export interface MenuProps {
+export interface Menu {
     id: number;
     title: string;
     img: IconType | string;

@@ -1,8 +1,8 @@
 import { FaAddressBook } from "react-icons/fa";
-import { MenuProps } from "./types";
+import { Menu } from "./types";
 import { BsChatDots } from "react-icons/bs";
 
-export const menuData: MenuProps[] = [
+export const menuData: Menu[] = [
     {
         id: 1,
         title: 'clients',
@@ -24,5 +24,11 @@ export const menuData: MenuProps[] = [
             { id: 2, title: 'chat2', url: 'chat2' },
             { id: 3, title: 'chat3', url: 'chat3' },
         ]
+    },
+    {
+        id: 3,
+        title: 'Inventory',
+        img: BsChatDots,
+        url: 'inventory',
     },
 ];

@@ -1,75 +1,50 @@
-import { IconType } from "react-icons";
-import { MenuProps } from "../../types";
-import { Link } from "react-router-dom";
-
-type Props = {
-    item: MenuProps,
-    isMenuOpen: boolean,
-    activeSubmenuId: number | null,
-    activeParenMenuId: number | null,
-    toggleSubmenu: (id: number) => void,
-    toggleMenu: () => void
-    handleClickChildLink: (id: number) => void,
-    handleClickParentLink: (id: number) => void,
-}
+import { Link } from "react-router-dom"
+import { Menu, } from "../../types"
+import SubMenuItem from "../SubMenuItem"
+import { memo, useContext } from "react"
+import { MenuContext } from "../../MenuContext"
 
 
+const MenuItem = memo(({ item }: { item: Menu }) => {
 
-const MenuItem = ({
-    activeSubmenuId,
-    isMenuOpen,
-    item,
-    toggleSubmenu,
-    handleClickChildLink,
-    handleClickParentLink,
-    activeParenMenuId
-}: Props) => {
+    const menu = useContext(MenuContext);
+    if (!menu) return <div>Нет данных</div>
+    const { isOpen, itemHovered, onMouseEnter, onMouseLeave, isSubItems, openSubUnderMenu, activeSubmenuId, activeElement, handleClickActiveElement } = menu
 
-    const renderIcon = (icon: IconType | string, title: string) => {
-        if (typeof icon === 'function') {
-            const IconComponent = icon as React.ComponentType<{ className?: string }>;
-            return <IconComponent className="menu__icon" />;
-        }
-        return (
-            <img
-                width={30}
-                height={30}
-                src={icon || '/favicon.ico'}
-                alt={title}
-                className="menu__icon"
-            />
-        );
-    };
+    const subMenoClassName = isOpen ? 'submenu--under' : '';
 
-    return <li onClick={() => handleClickParentLink(item.id)} className="menu__item">
-        <div
-            className={`menu__header ${activeParenMenuId === item.id ? 'menu__header--active' : ''}`}
-            onClick={() => toggleSubmenu(item.id)}
-        >
-            <div className="menu__icon-wrapper">
-                {renderIcon(item.img, item.title)}
-            </div>
-            {isMenuOpen && (
-                <span className="menu__title">{item.title}</span>
-            )}
+    console.log(activeElement)
+
+
+    return <div
+        onClick={() => openSubUnderMenu(item.id)}
+        onMouseEnter={() => onMouseEnter(item.id)}
+        onMouseLeave={() => onMouseLeave(null)}
+        className="menu__item">
+        <div className="menu__item-body">
+            {
+                isSubItems(item.id) ? <div className="img-container">
+                    <img width={30} height={30} src="/favicon.ico" alt="" />
+                </div> : <Link onClick={() => handleClickActiveElement({ parendId: item.id, childId: null })} to={item.url} className="img-container more">
+                    <img width={30} height={30} src="/favicon.ico" alt="" />
+                </Link>
+            }
+
+            {isOpen && <p className={`menu__title ${activeElement?.parendId === item.id ? 'menu__title--active' : ''}`}>{item.title}</p>}
         </div>
-
-        {item.submenu && (
-            <ul
-                className={`submenu ${isMenuOpen && activeParenMenuId === item.id ? 'active' : ''}`}
-            >
-                {item.submenu.map(subItem => (
-                    <li key={subItem.id} className={`submenu__item ${activeSubmenuId === subItem.id ? 'submenu__item--active' : ''}`}>
-                        <span>◦</span>
-                        <Link onClick={() => handleClickChildLink(subItem.id)} to={`/${item.url}/${subItem.url}`} className="submenu__link">
-                            {subItem.title}
-                        </Link>
-                    </li>
-                ))}
+        {
+            isSubItems(item.id) ? <ul className={`submenu ${subMenoClassName} ${activeSubmenuId == item.id ? 'submenu--active' : ''}`}>
+                {
+                    item.submenu?.map(child => {
+                        return <SubMenuItem parentId={item.id} key={child.id} url={item.url} item={child} />
+                    })
+                }
             </ul>
-        )}
-    </li>
+                : !isSubItems(item.id) && itemHovered == item.id ? <div className="menu__item-area">{item.title}</div> : ''
+        }
 
-}
+    </div>
+
+})
 
 export default MenuItem

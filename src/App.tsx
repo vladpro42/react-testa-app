@@ -1,16 +1,18 @@
 import { Outlet } from 'react-router-dom';
-import Menu from './module/menu/Menu';
+import MainMenu from './module/menu';
 
 
 function App() {
   return (
     <div className="app">
-      <Menu />
-      <main className="content">
+      <MainMenu />
+      <div>
         <Outlet />
-      </main>
+      </div>
     </div>
   );
 }
 
 export default App;
+
+
