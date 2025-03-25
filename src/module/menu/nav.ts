@@ -6,7 +6,7 @@ export const menuData: Menu[] = [
     {
         id: 1,
         title: 'clients',
-        img: FaAddressBook,
+        img: 'mess.svg',
         url: 'clients',
         submenu: [
             { id: 1, title: 'create', url: 'create' },
@@ -17,7 +17,7 @@ export const menuData: Menu[] = [
     {
         id: 2,
         title: 'Chat',
-        img: BsChatDots,
+        img: 'chat.svg',
         url: 'chats',
         submenu: [
             { id: 1, title: 'Chat dillers', url: 'chat1' },
@@ -28,7 +28,7 @@ export const menuData: Menu[] = [
     {
         id: 3,
         title: 'Inventory',
-        img: BsChatDots,
+        img: 'basket.svg',
         url: 'inventory',
     },
 ];

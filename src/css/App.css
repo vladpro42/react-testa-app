@@ -16,6 +16,7 @@
 }
 
 .menu-block {
+  align-items: center;
   width: 7%;
   padding: 15px 10px;
   background-color: #f0f0f0;
@@ -37,7 +38,7 @@
 
 .menu__item-body {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   cursor: pointer;
 }
@@ -62,7 +63,7 @@
 
 .menu__item-area {
   position: absolute;
-  right: -120%;
+  right: -80px;
   top: 50%;
   transform: translateY(-50%);
   padding: 8px;
@@ -103,12 +104,13 @@
 .menu__item-body {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content: start;
+  align-items: center;
   gap: 10px;
 }
 
 .menu-block:has(.menu.menu--active) {
-  width: 12%;
+  width: 20%;
 }
 
 .menu.active .submenu.active {
@@ -124,6 +126,7 @@
   align-items: center;
   gap: 8px;
   border-radius: 4px;
+  padding-left: 15px;
 }
 
 .submenu__item span {
@@ -164,4 +167,32 @@
 
 .menu__title--active {
   color: #61dafb;
+}
+
+.menu.menu--active .menu__item:hover {
+  background-color: transparent;
+}
+
+.menu.menu--active .menu__item-body:hover {
+  background-color: #e2e2e2;
+}
+
+
+.submenu.submenu--under.submenu--active {
+  padding: 5px 0;
+  margin-top: 0;
+  padding-left: 20px;
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+}
+
+.img-container img {
+  opacity: 0.5;
+}
+
+.img-container .img-active {
+  opacity: 1;
+  filter:
+    brightness(0) saturate(100%) invert(55%) sepia(56%) saturate(1721%) hue-rotate(162deg) brightness(101%) contrast(91%);
 }

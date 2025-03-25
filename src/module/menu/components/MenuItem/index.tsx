@@ -1,34 +1,45 @@
 import { Link } from "react-router-dom"
 import { Menu, } from "../../types"
 import SubMenuItem from "../SubMenuItem"
-import { memo, useContext } from "react"
-import { MenuContext } from "../../MenuContext"
+import { memo, useCallback } from "react"
+import { useMenuContext } from "../../MenuContext"
 
 
 const MenuItem = memo(({ item }: { item: Menu }) => {
 
-    const menu = useContext(MenuContext);
-    if (!menu) return <div>Нет данных</div>
-    const { isOpen, itemHovered, onMouseEnter, onMouseLeave, isSubItems, openSubUnderMenu, activeSubmenuId, activeElement, handleClickActiveElement } = menu
+    const { isOpen,
+        itemHovered,
+        onMouseEnter,
+        onMouseLeave,
+        isSubItems,
+        openSubUnderMenu,
+        activeSubmenuId,
+        activeElement,
+        handleClickActiveElement
+    } = useMenuContext();
 
     const subMenoClassName = isOpen ? 'submenu--under' : '';
 
-    console.log(activeElement)
+    const handleMouseEnter = useCallback(() => onMouseEnter(item.id), [item.id, onMouseEnter]);
+    const handleMouseLeave = useCallback(() => onMouseLeave(null), [onMouseLeave]);
 
+    const handleClick = useCallback(() => openSubUnderMenu(item.id), [item.id, openSubUnderMenu]);
 
     return <div
-        onClick={() => openSubUnderMenu(item.id)}
-        onMouseEnter={() => onMouseEnter(item.id)}
-        onMouseLeave={() => onMouseLeave(null)}
+        onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         className="menu__item">
         <div className="menu__item-body">
             {
-                isSubItems(item.id) ? <div className="img-container">
-                    <img width={30} height={30} src="/favicon.ico" alt="" />
-                </div> : <Link onClick={() => handleClickActiveElement({ parendId: item.id, childId: null })} to={item.url} className="img-container more">
-                    <img width={30} height={30} src="/favicon.ico" alt="" />
-                </Link>
-            }
+                isSubItems(item.id) ? (
+                    <div className="img-container">
+                        <img className={` ${activeElement?.parendId === item.id ? 'img-active' : ''}`} width={30} height={30} src={`/${item.img}`} alt="" />
+                    </div>) : (
+                    <Link onClick={() => handleClickActiveElement({ parendId: item.id, childId: null })} to={item.url} className={`img-container `}>
+                        <img className={` ${activeElement?.parendId === item.id ? 'img-active' : ''}`} width={30} height={30} src={`/${item.img}`} alt="" />
+                    </Link>
+                )}
 
             {isOpen && <p className={`menu__title ${activeElement?.parendId === item.id ? 'menu__title--active' : ''}`}>{item.title}</p>}
         </div>

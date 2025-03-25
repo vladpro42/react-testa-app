@@ -1,16 +1,10 @@
-import { useContext } from "react";
-import { MenuContext } from "./MenuContext";
+import { useMenuContext } from "./MenuContext";
 import MenuItem from "./components/MenuItem";
-
 
 
 const Menu = () => {
 
-    const menu = useContext(MenuContext);
-
-    if (!menu) return <div>Нет данных</div>
-
-    const { menuList, isOpen, toggleMenu } = menu
+    const { menuList, isOpen, toggleMenu } = useMenuContext();
 
     const activeMenuClassName = isOpen ? 'menu--active' : '';
 
@@ -23,7 +17,7 @@ const Menu = () => {
             }
         </div>
         <div className="menu__btn">
-            <button onClick={toggleMenu}>{isOpen ? 'hidden' : 'show'}</button>
+            <button onClick={toggleMenu}>{isOpen ? '<<' : <img width={30} height={30} src="/width.svg" alt="" />}</button>
         </div>
     </div>
 };

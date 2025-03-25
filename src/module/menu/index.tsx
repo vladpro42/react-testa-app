@@ -1,7 +1,7 @@
 import { MenuContext } from "./MenuContext";
 import Menu from "./Menu";
 import { menuData } from "./nav";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 export type objIds = {
     parendId: number | null,
@@ -12,44 +12,38 @@ const MainMenu = () => {
 
     const [isOpen, setIsOpen] = useState(false)
     const [itemHovered, setItemHovered] = useState<null | number>(null);
-
-
-
-    const toggleMenu = () => {
-        setIsOpen(prev => !prev)
-    }
-
-    const onMouseEnter = (id: number) => {
-        if (isSubItems(id)) {
-            return
-        }
-        setItemHovered(id)
-    }
-    const onMouseLeave = (id: number | null) => setItemHovered(null)
-
     const [activeSubmenuId, setActiveSubmenuId] = useState<number | null>(null);
-
-    const openSubUnderMenu = (id: number) => {
-        if (!isOpen) { return }
-        setActiveSubmenuId(prevId => prevId === id ? null : id);
-    };
-
-
-    const isSubItems = (id: number) => {
-        const current = menuData.find(item => item.id === id)
-        if (current?.submenu) {
-            return true
-        }
-        return false
-    }
-
-
-
     const [activeElement, setActiveElement] = useState<objIds | null>(null);
 
-    const handleClickActiveElement = (objIds: objIds) => {
-        setActiveElement(objIds)
-    }
+    const memoizedMenuData = useMemo(() => menuData, []);
+
+    const toggleMenu = useCallback(() => {
+        setIsOpen(prev => !prev)
+    }, [])
+
+    const openSubUnderMenu = useCallback((id: number) => {
+        if (!isOpen) return;
+        setActiveSubmenuId(prevId => (prevId === id ? null : id));
+    }, [isOpen]);
+
+    const isSubItems = useCallback((id: number) => {
+        const current = memoizedMenuData.find(item => item.id === id);
+        return current?.submenu ? true : false;
+    }, [memoizedMenuData]);
+
+    const onMouseLeave = useCallback(() => {
+        setItemHovered(null);
+    }, []);
+
+    const onMouseEnter = useCallback((id: number) => {
+        if (!isSubItems(id)) {
+            setItemHovered(id);
+        }
+    }, [isSubItems]);
+
+    const handleClickActiveElement = useCallback((objIds: objIds) => {
+        setActiveElement(objIds);
+    }, []);
 
 
     return (
